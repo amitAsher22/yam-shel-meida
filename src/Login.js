@@ -8,6 +8,8 @@ function Login() {
   const currentUser = useAuth();
 
   const login = async () => {
+    setEmail("");
+    setPassword("");
     await signUp(email, password);
   };
 
@@ -19,8 +21,8 @@ function Login() {
     }
   };
 
-  const getInuser = async () => {
-    await loginuser(email, password);
+  const getInuser = () => {
+    loginuser(email, password);
   };
 
   return (
@@ -31,11 +33,13 @@ function Login() {
           type="email"
           placeholder="email.."
           onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
         <input
           type="password"
           placeholder="password.. (6 Letters and up)"
           onChange={(e) => setPassword(e.target.value)}
+          value={password}
         />
         <div>
           <button onClick={() => login()}>signUp </button>

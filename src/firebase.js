@@ -22,11 +22,25 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 export function signUp(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((user) => {
+      console.log(user);
+      return user;
+    })
+    .catch((err) => console.log(err));
 }
 
-export function loginuser() {
-  return signInWithEmailAndPassword(auth);
+export function loginuser(email, password) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+      return user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
 }
 
 export function logout() {
@@ -37,6 +51,7 @@ export function useAuth() {
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+
     return unsub;
   }, []);
   return currentUser;
